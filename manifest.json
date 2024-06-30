@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "文章同步助手",
+  "description": "支持一键将文章同步到知乎、掘金、简书、思否、博客园、CSDN等平台",
+  "version": "1.0.0",
+  "icons": {
+    "16": "public/icon.png",
+    "32": "public/icon.png",
+    "48": "public/icon.png",
+    "128": "public/icon.png"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "declarative_net_request": {
+    "rule_resources": [{
+      "id": "1",
+      "priority": "1",
+      "enabled": true,
+      "path": "rules.json"
+    }]
+  },
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage",
+    "unlimitedStorage",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "declarativeNetRequestFeedback",
+    "notifications",
+    "cookies"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';",
+    "sandbox": "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval'; child-src 'self';"
+  },
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "js": [
+        "src/content/index.jsx"
+      ],
+      "matches": [
+        "http://127.0.0.1:*/*",
+        "https://juejin.cn/*"
+      ],
+      "all_frames": true,
+      "run_at": "document_end",
+      "match_about_blank": true
+    }
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  }
+}
